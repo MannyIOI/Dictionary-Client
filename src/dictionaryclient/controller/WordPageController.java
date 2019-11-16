@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -42,10 +46,13 @@ public class WordPageController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
+    private String currentWord;
     
     @FXML
     private ListView<String> word_list;
+    
+    @FXML
+    private TextField search_bar;
     
     @FXML
     private TextArea definition;
@@ -75,13 +82,11 @@ public class WordPageController implements Initializable {
     }
     
     @FXML
-    public void onTestClicked(ActionEvent ev) throws IOException{
-//        String query = "{'query': 'test'}";
-//        Client client = Client.getInstance();
-//        System.out.println(client.sendRequest(query));
-//        System.out.println(wordList);
-        
-        
+    public void onTestClicked(KeyEvent ev) throws IOException{
+          if(ev.getCharacter().hashCode() == 13){
+              // WHEN ENTER CLICKED
+              new GetDefinition(search_bar.getText()).start();
+          }
     }
     
     class GetList extends Thread{
@@ -148,14 +153,13 @@ public class WordPageController implements Initializable {
                 }
                 else{
                     JSONArray defList = new JSONObject(obj.getString("res")).getJSONArray("definition");
-                    String displayString = "Defintion\n\t";
+                    String displayString = "Defintion\n\n\t";
                     for(int i = 0;i < defList.length();i++){
-                        displayString += i+".\t"+defList.getString(i)+"\n\t";
+                        int j = i + 1;
+                        displayString += j+".\t"+defList.getString(i)+"\n\n\t";
                     }
                     definition.setText(displayString);
                 }
-                
-                
             }
             catch(IOException | JSONException | InterruptedException ex){
                 ex.printStackTrace();

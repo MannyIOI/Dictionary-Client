@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="DictionaryClient.jar" size="12829" download="eager" />
+    <jar href="DictionaryClient.jar" size="11979" download="eager" />
     <jar href="lib\org.json.jar" size="48796" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="DictionaryClient" >
