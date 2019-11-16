@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #444646;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dictionaryclient.controller.AddWordController">
+  <children>
+    <Button fx:id="addButton" layoutX="546.0" layoutY="413.0" mnemonicParsing="false" onAction="#onAddWordClicked" prefHeight="41.0" prefWidth="102.0" style="-fx-background-color: #41eac1; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="ADD" />
+    <Pane layoutX="157.0" layoutY="220.0" prefHeight="158.0" prefWidth="488.0" style="-fx-background-color: white;" />
+    <Text fill="#fffefe" fontSmoothingType="LCD" layoutX="241.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add A word With the description">
+      <font>
+        <Font name="Segoe UI Light Italic" size="24.0" />
+      </font>
+    </Text>
+    <Text fill="#f8f7f7" fontSmoothingType="LCD" layoutX="153.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
+      <font>
+        <Font name="Segoe UI Light" size="16.0" />
+      </font>
+    </Text>
+    <TextField layoutX="358.0" layoutY="147.0" prefHeight="41.0" prefWidth="188.0" promptText="Name of the word" />
+    <Text fill="#fff8f8" fontSmoothingType="LCD" layoutX="215.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of the word">
+      <font>
+        <Font name="Segoe UI Light Italic" size="16.0" />
+      </font>
+    </Text>
+    <TextArea layoutX="153.0" layoutY="216.0" prefHeight="165.0" prefWidth="495.0" promptText="Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word Description of the word " style="-fx-background-color: white;" />
+    <Button fx:id="backButton" layoutX="14.0" layoutY="20.0" mnemonicParsing="false" onAction="#onBackClicked" prefHeight="41.0" prefWidth="102.0" style="-fx-background-color: #41eac1; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="back" />
+  </children>
+</AnchorPane>
