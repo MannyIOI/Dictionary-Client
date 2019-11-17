@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -46,7 +49,7 @@ public class WordPageController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    private String currentWord;
+    private String currentWord = "";
     
     @FXML
     private ListView<String> word_list;
@@ -56,6 +59,9 @@ public class WordPageController implements Initializable {
     
     @FXML
     private TextArea definition;
+    
+    @FXML
+    private ProgressIndicator progressListWords;
     
     Client client;
     @Override
@@ -77,16 +83,31 @@ public class WordPageController implements Initializable {
     
     @FXML
     public void onItemSelected(MouseEvent ev){
-        System.out.println("Item selected");
-        new GetDefinition(word_list.getSelectionModel().getSelectedItem()).start();
+        currentWord = word_list.getSelectionModel().getSelectedItem();
+        new GetDefinition(currentWord).start();
     }
     
     @FXML
-    public void onTestClicked(KeyEvent ev) throws IOException{
-          if(ev.getCharacter().hashCode() == 13){
+    public void onRefreshClicked(ActionEvent ev) throws IOException{
+        System.out.println("Refreshing");
+        client.close();
+        new GetList().start();
+    }
+    
+    @FXML
+    public void onSearch(KeyEvent ev) throws IOException{
+        if(ev.getCharacter().hashCode() == 13){
               // WHEN ENTER CLICKED
-              new GetDefinition(search_bar.getText()).start();
+              currentWord = search_bar.getText();
+              new GetDefinition(currentWord).start();
           }
+    }
+    
+    @FXML
+    public void onDeleteWordClicked(ActionEvent ev){
+        if(!currentWord.equals("")){
+            new RemoveWord(currentWord).start();
+        }
     }
     
     class GetList extends Thread{
@@ -95,14 +116,17 @@ public class WordPageController implements Initializable {
         @Override
         synchronized public void run() {
             try{
-                Client client = Client.getInstance();
+                progressListWords.setVisible(true);
+                progressListWords.setProgress(0.1);
+                client = Client.getInstance();
                 String query = "{'query': 'getAllWords'}";
                 System.out.println("Sending request");
                 while(client.dis == null){
                     Thread.sleep(100);
                 }
+                progressListWords.setProgress(0.4);
                 String res = client.sendRequest(query);
-                
+                progressListWords.setProgress(0.8);
                 JSONObject obj = new JSONObject(res);
                 JSONArray wordListJson = obj.getJSONArray("res");
                 
@@ -114,8 +138,10 @@ public class WordPageController implements Initializable {
                     wordList.add(wordObj.getString("word"));
                 }
                 
+                progressListWords.setProgress(0.9);
                 ObservableList<String> items = FXCollections.observableArrayList(wordList);
                 word_list.setItems(items);
+                progressListWords.setVisible(false);
             }
             catch(IOException ex){
                 System.out.println("Sorry there was some error in GET LIST function while sending request");
@@ -125,6 +151,9 @@ public class WordPageController implements Initializable {
             }
             catch(JSONException ex){
                 System.out.println("There was an error in the response GET LIST");
+            }
+            catch(Exception ex){
+                
             }
         }
         
@@ -139,15 +168,13 @@ public class WordPageController implements Initializable {
         @Override
         public void run() {
             try{
-            Client client = Client.getInstance();
+                client = Client.getInstance();
                 String query = "{'query': 'getDefinition', 'word': '"+this.word+"'}";
-                System.out.println("Sending request");
                 while(client.dis == null){
                     Thread.sleep(100);
                 }
                 String res = client.sendRequest(query);
                 JSONObject obj = new JSONObject(res);
-                System.out.println(obj);
                 if("INEXISTENT_WORD_ERROR".equals(obj.getString("res"))){
                     definition.setText("Sorry Could not find a definition for that word");
                 }
@@ -163,6 +190,28 @@ public class WordPageController implements Initializable {
             }
             catch(IOException | JSONException | InterruptedException ex){
                 ex.printStackTrace();
+            }
+        }
+    }
+    
+    class RemoveWord extends Thread{
+        String word;
+        public RemoveWord(String word){
+            this.word = word;
+        }
+
+        @Override
+        public void run() {
+            try {
+                System.out.println("Sending request ... ");
+                String query = "{'query':'removeWord', 'word':'"+this.word+"'}";
+                client = Client.getInstance();
+                String res = client.sendRequest(query);
+                new GetList().start();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch(IllegalStateException ex){
+                
             }
         }
     }

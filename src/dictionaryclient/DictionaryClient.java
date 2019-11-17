@@ -38,13 +38,18 @@ public class DictionaryClient extends Application {
             
         });
         
-        Client client = Client.getInstance();
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        if(args.length < 2){
+            System.out.println("insufficient number of parameters");
+        }
+        Utility.PORT = Integer.parseInt(args[1]);
+        Utility.SERVER_ADDRESS = args[0];
+        
         launch(args);
     }
     

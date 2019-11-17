@@ -5,6 +5,7 @@
  */
 package network;
 
+import dictionaryclient.Utility;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -38,9 +39,9 @@ public class Client extends Thread{
     @Override
     public void run(){
         try{
-            InetAddress ip = InetAddress.getByName("localhost");
+            InetAddress ip = InetAddress.getByName(Utility.SERVER_ADDRESS);
             
-            s = new Socket(ip, 5056);
+            s = new Socket(ip, Utility.PORT);
             // obtaining input and out streams
             dis = new DataInputStream(s.getInputStream());
             dos = new DataOutputStream(s.getOutputStream());
@@ -63,7 +64,7 @@ public class Client extends Thread{
     
     public void close(){
         try{
-            
+            client = null;
             dos.writeUTF("Exit");
             s.close();
             dos.close();

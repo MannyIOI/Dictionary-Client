@@ -18,22 +18,27 @@
 
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="740.0" style="" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dictionaryclient.controller.WordPageController">
   <children>
-    <Pane prefHeight="64.0" prefWidth="740.0" style="-fx-background-color: #000000;">
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="58.0" prefWidth="740.0" style="-fx-background-color: #000000;">
       <children>
         <Text fill="#f5f3f3" fontSmoothingType="LCD" layoutX="255.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Dictionary">
           <font>
             <Font name="Segoe UI Light Italic" size="40.0" />
           </font>
         </Text>
+        <Button layoutX="625.0" layoutY="12.0" mnemonicParsing="false" onAction="#onRefreshClicked" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #41eac1; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="Refresh" textFill="WHITE">
+          <font>
+            <Font name="System Bold" size="15.0" fx:id="x1" />
+          </font>
+        </Button>
       </children>
     </Pane>
-    <ScrollPane layoutY="63.0" prefHeight="437.0" prefWidth="229.0">
+    <ScrollPane layoutX="0.0" layoutY="58.0" prefHeight="441.9609375" prefWidth="229.0">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="58.0" prefWidth="228.0" style="-fx-background-color: paperwhite;">
           <children>
             <HBox layoutX="40.0" layoutY="7.0" prefHeight="30.0" prefWidth="180.0">
               <children>
-                <TextField fx:id="search_bar" onKeyTyped="#onTestClicked" prefHeight="27.0" prefWidth="155.0" promptText="Search" style="-fx-background-radius: 15px; -fx-border-radius: 15px;" HBox.hgrow="ALWAYS">
+                <TextField fx:id="search_bar" onKeyTyped="#onSearch" prefHeight="27.0" prefWidth="155.0" promptText="Search" style="-fx-background-radius: 15px; -fx-border-radius: 15px;" HBox.hgrow="ALWAYS">
                   <HBox.margin>
                     <Insets bottom="3.0" left="25.0" top="3.0" />
                   </HBox.margin>
@@ -45,16 +50,17 @@
         </AnchorPane>
       </content>
     </ScrollPane>
-    <ScrollPane layoutX="228.0" layoutY="63.0" prefHeight="377.0" prefWidth="512.0" style="-fx-background-color: white;">
+    <ScrollPane layoutX="241.0" layoutY="63.0" prefHeight="378.0" prefWidth="486.0" style="-fx-background-color: white;">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="153.0" prefWidth="200.0">
           <children>
-            <TextArea fx:id="definition" disable="false" editable="false" focusTraversable="false" layoutX="1.0" layoutY="0.0" prefHeight="378.0" prefWidth="502.0" promptText="" text="Select items on the left panel or Search on the search bar to see&#10;definitions of words" />
+            <TextArea fx:id="definition" disable="false" editable="false" focusTraversable="false" layoutX="0.0" layoutY="21.0" prefHeight="349.0" prefWidth="485.0" promptText="" text="Select items on the left panel or Search on the search bar to see&#10;definitions of words" />
           </children>
         </AnchorPane>
       </content>
     </ScrollPane>
-    <Button fx:id="addButton" layoutX="635.0" layoutY="461.0" mnemonicParsing="false" onAction="#onAddWordClicked" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: #41eac1; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="Add Word" />
-    <Button layoutX="241.0" layoutY="461.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="107.0" style="-fx-background-color: #41eac1; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="Delete" />
+    <Button fx:id="addButton" font="$x1" layoutX="611.0" layoutY="449.0" mnemonicParsing="false" onAction="#onAddWordClicked" prefHeight="39.0" prefWidth="121.0" style="-fx-background-color: #41eac1; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="Add Word" textFill="WHITE" />
+    <Button font="$x1" layoutX="241.0" layoutY="449.0" mnemonicParsing="false" onAction="#onDeleteWordClicked" prefHeight="39.0" prefWidth="112.0" style="-fx-background-color: #41eac1; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="Delete" textFill="WHITE" />
+    <ProgressIndicator fx:id="progressListWords" layoutX="362.0" layoutY="236.0" progress="0.0" />
   </children>
 </AnchorPane>
